@@ -18,29 +18,33 @@
         class="vinyl"
         data-artwork="cover.jpeg"
         data-song="Stereophonics - Dakota.mp3"
+        data-name="Dakota"
       >
-        <div class="vinyl-center"><img src="cover.jpeg" alt="Art 1" /></div>
+        <div class="vinyl-center"><img src="cover.jpeg" alt="Art 1"  /></div>
       </div>
       <div
         class="vinyl"
         data-artwork="1900x1900-000000-80-0-0.jpg"
         data-song="Thinkin Bout You.mp3"
+        data-name="Thinkin Bout You"
       >
         <div class="vinyl-center">
-          <img src="1900x1900-000000-80-0-0.jpg" alt="Art 2" />
+          <img src="1900x1900-000000-80-0-0.jpg" alt="Art 2"  />
         </div>
       </div>
       <div
         class="vinyl"
         data-artwork="images.jpeg"
         data-song="Red Hot Chili Peppers.mp3"
+        data-name="Scar Tissue"
       >
-        <div class="vinyl-center"><img src="images.jpeg" alt="Art 3" /></div>
+        <div class="vinyl-center"><img src="images.jpeg" alt="Art 3"  /></div>
       </div>
       <div
         class="vinyl"
         data-artwork="Hotelcalifornia.jpg"
         data-song="Eagles - Hotel California (Official Audio).mp3"
+        data-name="Hotel California"
       >
         <div class="vinyl-center">
           <img src="Hotelcalifornia.jpg" alt="Art 4" />
@@ -50,27 +54,30 @@
         class="vinyl"
         data-artwork="Cassö_-_Prada.png"
         data-song="Cassö x Raye x D Block Europe - Prada (Official Video).mp3"
+        data-name="Prada"
       >
         <div class="vinyl-center">
-          <img src="Cassö_-_Prada.png" alt="Art 5" />
+          <img src="Cassö_-_Prada.png" alt="Art 5"  />
         </div>
       </div>
       <div
         class="vinyl"
         data-artwork="Blonde_-_Frank_Ocean.jpeg"
         data-song="Frank Ocean - Pink  White.mp3"
+        data-name="Pink + White"
       >
         <div class="vinyl-center">
-          <img src="Blonde_-_Frank_Ocean.jpeg" alt="Art 6" />
+          <img src="Blonde_-_Frank_Ocean.jpeg" alt="Art 6"  />
         </div>
       </div>
-      <div class="vinyl" data-artwork="500x500.jpg" data-song="c.mp3">
-        <div class="vinyl-center"><img src="500x500.jpg" alt="Art 7" /></div>
+      <div class="vinyl" data-artwork="500x500.jpg" data-song="c.mp3" data-name="Les">
+        <div class="vinyl-center"><img src="500x500.jpg" alt="Art 7"  /></div>
       </div>
       <div
         class="vinyl"
         data-artwork="artworks-000078906384-e77szc-t1080x1080.jpg"
         data-song="Kasabian - L.S.F..mp3"
+        data-name="L.S.F"
       >
         <div class="vinyl-center">
           <img src="artworks-000078906384-e77szc-t1080x1080.jpg" alt="Art 8" />
@@ -80,6 +87,7 @@
         class="vinyl"
         data-artwork="DBRealGoneKid.jpg"
         data-song="Deacon Blue - Real Gone Kid (Official Video).mp3"
+        data-name="Real gone Kid"
       >
         <div class="vinyl-center">
           <img src="DBRealGoneKid.jpg" alt="Art 9" />
@@ -89,6 +97,7 @@
         class="vinyl"
         data-artwork="Labi Siffre - The Singer and the Song, Cover art.jpeg"
         data-song="Labi Siffre - Bless The Telephone (Official Music Video).mp3"
+        data-name="Bless The Telephone"
       >
         <div class="vinyl-center">
           <img
@@ -101,6 +110,7 @@
         class="vinyl"
         data-artwork="artworks-99ySXvmLmQJt-0-t500x500.png.jpeg"
         data-song="Brent Faiyaz - Forever Yours.mp3"
+        data-name="Forever Yours"
       >
         <div class="vinyl-center">
           <img src="artworks-99ySXvmLmQJt-0-t500x500.png.jpeg" alt="Art 11" />
@@ -110,6 +120,7 @@
         class="vinyl"
         data-artwork="Blonde_-_Frank_Ocean.jpeg"
         data-song="Frank Ocean - White Ferrari.mp3"
+        data-name="White Ferrari"
       >
         <div class="vinyl-center">
           <img src="Blonde_-_Frank_Ocean.jpeg" alt="Art 12" />
@@ -122,14 +133,22 @@
         <img src="" alt="Current Artwork" id="current-artwork" />
       </div>
       <div class="player-controls">
-        <div class="progress-bar">
-          <div class="progress" id="progress"></div>
-        </div>
+  <div id="song-name" class="song-name">No song playing</div>
+  <div class="progress-bar">
+    <div class="progress" id="progress"></div>
+  </div>
+  <div class="time-display">
+    <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+  </div>
+</div>
         <button class="play-pause-btn" id="play-pause">Play</button>
       </div>
     </div>
 
     <script>
+      const songNameEl = document.getElementById('song-name');
+const currentTimeEl = document.getElementById('current-time');
+const durationEl = document.getElementById('duration')
       const vinyls = document.querySelectorAll(".vinyl");
       const artworkEl = document.getElementById("current-artwork");
       const progressEl = document.getElementById("progress");
@@ -144,6 +163,8 @@
         vinyl.addEventListener("click", () => {
           const song = vinyl.dataset.song;
           const artwork = vinyl.dataset.artwork;
+          const name = vinyl.dataset.name || "Unknown Song"; // get song title
+songNameEl.textContent = name;                     // update display
 
           if (song === "") return;
 
@@ -166,12 +187,24 @@
         });
       });
 
-      audio.addEventListener("timeupdate", () => {
-        if (audio.duration) {
-          const percent = (audio.currentTime / audio.duration) * 100;
-          progressEl.style.width = percent + "%";
-        }
-      });
+    audio.addEventListener('timeupdate', () => {
+  if (audio.duration) {
+    // Update progress bar
+    const percent = (audio.currentTime / audio.duration) * 100;
+    progressEl.style.width = percent + "%";
+
+    // Update time display
+    currentTimeEl.textContent = formatTime(audio.currentTime);
+    durationEl.textContent = formatTime(audio.duration);
+  }
+});
+
+// Helper function to format seconds as M:SS
+function formatTime(seconds){
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s < 10 ? '0'+s : s}`;
+}
 
       playPauseBtn.addEventListener("click", () => {
         if (audio.paused) {
