@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yay!</title>
+    <link rel="stylesheet" href="stylesheet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="yes">
+    <div class="confetti-container"></div>
+    <div class="heart-container">
+      <div class="heart" style="left: 10%">❤️</div>
+      <div class="heart" style="left: 25%; animation-duration: 6s">❤️</div>
+      <div class="heart" style="left: 40%; animation-duration: 4s">❤️</div>
+      <div class="heart" style="left: 50%; animation-duration: 6.5s">❤️</div>
+      <div class="heart" style="left: 55%; animation-duration: 5.5s">❤️</div>
+      <div class="heart" style="left: 70%; animation-duration: 7s">❤️</div>
+      <div class="heart" style="left: 80%; animation-duration: 5s">❤️</div>
+      <div class="heart" style="left: 85%; animation-duration: 6.5s">❤️</div>
+    </div>
+    <div class="content">
+      <h1>Yay! We're Going to Be Valentines! 💘</h1>
+      <p>
+        I love you so much Sarah, you have made me so happy since you came into
+        my life.
+      </p>
+      <p>
+        I can't wait to spend Valentine's Day with you and make more memories!
+      </p>
+      <div class="polaroids">
+  <div class="flip-card" style="transform: rotate(-3deg);">
+    <div class="flip-card-inner">
+      <div class="flip-card-front polaroid">
+        <img src="96DA11F1-4243-4DCC-B521-A8225424B324_1_105_c.jpeg" alt="Front">
+      </div>
+      <div class="flip-card-back polaroid">
+        <img src="IMG_4871.JPG" alt="Back">
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" style="transform: rotate(2deg);">
+    <div class="flip-card-inner">
+      <div class="flip-card-front polaroid">
+        <img src="01082522-1500-48EE-B028-28AAD9236BB8_4_5005_c.jpeg" alt="Front">
+      </div>
+      <div class="flip-card-back polaroid">
+        <img src="IMG_4778.JPG" alt="Back">
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" style="transform: rotate(-1deg);">
+    <div class="flip-card-inner">
+      <div class="flip-card-front polaroid">
+        <img src="BC991A60-53A3-49A1-9396-FACEB4011669_1_105_c.jpeg" alt="Front">
+      </div>
+      <div class="flip-card-back polaroid">
+        <img src="IMG_4779.JPG" alt="Back">
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="countdown-container">
+      <h2>Countdown to Valentine’s Day ❤️</h2>
+      <div class="countdown">
+        <div class="time-box">
+          <span id="days">0</span>
+          <small>Days</small>
+        </div>
+        <div class="time-box">
+          <span id="hours">0</span>
+          <small>Hours</small>
+        </div>
+        <div class="time-box">
+          <span id="minutes">0</span>
+          <small>Minutes</small>
+        </div>
+        <div class="time-box">
+          <span id="seconds">0</span>
+          <small>Seconds</small>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.addEventListener("load", () => {
+        const container = document.querySelector(".confetti-container");
+        const colors = ["#ff5f5f", "#ffd966", "#6bcfff", "#9cff57", "#c77dff"];
+
+        for (let i = 0; i < 80; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.backgroundColor =
+            colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDelay = Math.random() * 0.8 + "s";
+          confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+          container.appendChild(confetti);
+
+          // cleanup
+          setTimeout(() => confetti.remove(), 3000);
+        }
+      });
+    </script>
+    <footer class="player">
+      <div class="track-info">
+        <img class="cover" src="cover.jpeg" alt="Album Art" />
+        <div class="meta">
+          <div class="title">Dakota</div>
+          <div class="artist">by Stereophonics</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <span id="current">0:00</span>
+        <input type="range" id="progress" value="0" />
+        <span id="total">0:00</span>
+      </div>
+
+      <button id="play">▶</button>
+
+      <audio id="audio" src="Dakota - Stereophonics.mp3" autoplay></audio>
+    </footer>
+    <script>
+      const audio = document.getElementById("audio");
+      const playBtn = document.getElementById("play");
+      const progress = document.getElementById("progress");
+      const current = document.getElementById("current");
+      const total = document.getElementById("total");
+
+      playBtn.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          playBtn.textContent = "⏸";
+        } else {
+          audio.pause();
+          playBtn.textContent = "▶";
+        }
+      });
+
+      audio.addEventListener("loadedmetadata", () => {
+        progress.max = Math.floor(audio.duration);
+        total.textContent = format(audio.duration);
+      });
+
+      audio.addEventListener("timeupdate", () => {
+        progress.value = audio.currentTime;
+        current.textContent = format(audio.currentTime);
+        progress.style.background = `linear-gradient(to right, #1db954 0%, #1db954 ${(audio.currentTime / audio.duration) * 100}%, #444 ${(audio.currentTime / audio.duration) * 100}%, #444 100%)`;
+      });
+
+      progress.addEventListener("input", () => {
+        audio.currentTime = progress.value;
+      });
+
+      function format(sec) {
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60)
+          .toString()
+          .padStart(2, "0");
+        return `${m}:${s}`;
+      }
+      window.addEventListener("load", () => {
+        audio.play().catch(() => {
+          console.log("Autoplay blocked. User interaction required.");
+        });
+      });
+    </script>
+    <script>
+      function updateCountdown() {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        let valentines = new Date(`February 14, ${currentYear} 00:00:00`);
+
+        // if Valentine's Day has passed this year, count for next year
+        if (now > valentines) {
+          valentines = new Date(`February 14, ${currentYear + 1} 00:00:00`);
+        }
+
+        const diff = valentines - now;
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById("days").textContent = days;
+        document.getElementById("hours").textContent = hours;
+        document.getElementById("minutes").textContent = minutes;
+        document.getElementById("seconds").textContent = seconds;
+      }
+
+      // Update immediately
+      updateCountdown();
+
+      // Update every second
+      setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>
