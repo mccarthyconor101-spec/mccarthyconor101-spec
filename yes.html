@@ -55,6 +55,27 @@
       </div>
       <audio src="oursong.mp3" autoplay loop></audio>
     </div>
+    <div class="countdown-container">
+      <h2>Countdown to Valentine’s Day ❤️</h2>
+      <div class="countdown">
+        <div class="time-box">
+          <span id="days">0</span>
+          <small>Days</small>
+        </div>
+        <div class="time-box">
+          <span id="hours">0</span>
+          <small>Hours</small>
+        </div>
+        <div class="time-box">
+          <span id="minutes">0</span>
+          <small>Minutes</small>
+        </div>
+        <div class="time-box">
+          <span id="seconds">0</span>
+          <small>Seconds</small>
+        </div>
+      </div>
+    </div>
     <script>
       window.addEventListener("load", () => {
         const container = document.querySelector(".confetti-container");
@@ -140,6 +161,36 @@
           console.log("Autoplay blocked. User interaction required.");
         });
       });
+    </script>
+    <script>
+      function updateCountdown() {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        let valentines = new Date(`February 14, ${currentYear} 00:00:00`);
+
+        // if Valentine's Day has passed this year, count for next year
+        if (now > valentines) {
+          valentines = new Date(`February 14, ${currentYear + 1} 00:00:00`);
+        }
+
+        const diff = valentines - now;
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById("days").textContent = days;
+        document.getElementById("hours").textContent = hours;
+        document.getElementById("minutes").textContent = minutes;
+        document.getElementById("seconds").textContent = seconds;
+      }
+
+      // Update immediately
+      updateCountdown();
+
+      // Update every second
+      setInterval(updateCountdown, 1000);
     </script>
   </body>
 </html>
