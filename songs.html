@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vinyl Player</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="stylesheetsongs.css" />
+  </head>
+  <body>
+    <h1>Songs that make me think about You!</h1>
+
+    <div class="vinyl-grid">
+      <div
+        class="vinyl"
+        data-artwork="cover.jpeg"
+        data-song="Stereophonics - Dakota.mp3"
+      >
+        <div class="vinyl-center"><img src="cover.jpeg" alt="Art 1" /></div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="1900x1900-000000-80-0-0.jpg"
+        data-song="Thinkin Bout You.mp3"
+      >
+        <div class="vinyl-center">
+          <img src="1900x1900-000000-80-0-0.jpg" alt="Art 2" />
+        </div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="images.jpeg"
+        data-song="Red Hot Chili Peppers.mp3"
+      >
+        <div class="vinyl-center"><img src="images.jpeg" alt="Art 3" /></div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="Hotelcalifornia.jpg"
+        data-song="Eagles - Hotel California (Official Audio).mp3"
+      >
+        <div class="vinyl-center">
+          <img src="Hotelcalifornia.jpg" alt="Art 4" />
+        </div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="Cassö_-_Prada.png"
+        data-song="Cassö x Raye x D Block Europe - Prada (Official Video).mp3"
+      >
+        <div class="vinyl-center">
+          <img src="Cassö_-_Prada.png" alt="Art 5" />
+        </div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="Blonde_-_Frank_Ocean.jpeg"
+        data-song="Frank Ocean - Pink  White.mp3"
+      >
+        <div class="vinyl-center">
+          <img src="Blonde_-_Frank_Ocean.jpeg" alt="Art 6" />
+        </div>
+      </div>
+      <div class="vinyl" data-artwork="500x500.jpg" data-song="c.mp3">
+        <div class="vinyl-center"><img src="500x500.jpg" alt="Art 7" /></div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="artworks-000078906384-e77szc-t1080x1080.jpg"
+        data-song="Kasabian - L.S.F..mp3"
+      >
+        <div class="vinyl-center">
+          <img src="artworks-000078906384-e77szc-t1080x1080.jpg" alt="Art 8" />
+        </div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="DBRealGoneKid.jpg"
+        data-song="Deacon Blue - Real Gone Kid (Official Video).mp3"
+      >
+        <div class="vinyl-center">
+          <img src="DBRealGoneKid.jpg" alt="Art 9" />
+        </div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="Labi Siffre - The Singer and the Song, Cover art.jpeg"
+        data-song="Labi Siffre - Bless The Telephone (Official Music Video).mp3"
+      >
+        <div class="vinyl-center">
+          <img
+            src="Labi Siffre - The Singer and the Song, Cover art.jpeg"
+            alt="Art 10"
+          />
+        </div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="artworks-99ySXvmLmQJt-0-t500x500.png.jpeg"
+        data-song="Brent Faiyaz - Forever Yours.mp3"
+      >
+        <div class="vinyl-center">
+          <img src="artworks-99ySXvmLmQJt-0-t500x500.png.jpeg" alt="Art 11" />
+        </div>
+      </div>
+      <div
+        class="vinyl"
+        data-artwork="Blonde_-_Frank_Ocean.jpeg"
+        data-song="Frank Ocean - White Ferrari.mp3"
+      >
+        <div class="vinyl-center">
+          <img src="Blonde_-_Frank_Ocean.jpeg" alt="Art 12" />
+        </div>
+      </div>
+    </div>
+
+    <div class="player-bar">
+      <div class="player-artwork">
+        <img src="" alt="Current Artwork" id="current-artwork" />
+      </div>
+      <div class="player-controls">
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+        <button class="play-pause-btn" id="play-pause">Play</button>
+      </div>
+    </div>
+
+    <script>
+      const vinyls = document.querySelectorAll(".vinyl");
+      const artworkEl = document.getElementById("current-artwork");
+      const progressEl = document.getElementById("progress");
+      const playPauseBtn = document.getElementById("play-pause");
+
+      let currentAudio = null;
+      let currentVinyl = null;
+
+      const audio = new Audio();
+
+      vinyls.forEach((vinyl) => {
+        vinyl.addEventListener("click", () => {
+          const song = vinyl.dataset.song;
+          const artwork = vinyl.dataset.artwork;
+
+          if (song === "") return;
+
+          artworkEl.src = artwork;
+
+          if (currentVinyl !== vinyl) {
+            audio.src = song;
+            audio.play();
+            playPauseBtn.textContent = "Pause";
+            currentVinyl = vinyl;
+          } else {
+            if (audio.paused) {
+              audio.play();
+              playPauseBtn.textContent = "Pause";
+            } else {
+              audio.pause();
+              playPauseBtn.textContent = "Play";
+            }
+          }
+        });
+      });
+
+      audio.addEventListener("timeupdate", () => {
+        if (audio.duration) {
+          const percent = (audio.currentTime / audio.duration) * 100;
+          progressEl.style.width = percent + "%";
+        }
+      });
+
+      playPauseBtn.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          playPauseBtn.textContent = "Pause";
+        } else {
+          audio.pause();
+          playPauseBtn.textContent = "Play";
+        }
+      });
+    </script>
+  </body>
+</html>
