@@ -1,0 +1,158 @@
+body {
+  background-color: #ffc0cb;
+}
+h1 {
+  text-align: center;
+  color: #fff;
+  font-family: "Dancing Script", cursive;
+}
+/* Vinyl grid: exactly 2 rows of 6 */
+.vinyl-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 columns */
+  grid-template-rows: repeat(2, 1fr); /* 2 rows */
+  gap: 16px;
+  width: 100vw;
+  height: calc(100vh - 140px);
+  padding: 20px;
+  box-sizing: border-box;
+  justify-items: center; /* center vinyl horizontally */
+  align-items: center; /* center vinyl vertically */
+}
+/* Each vinyl fills its grid cell */
+.vinyl {
+  width: 90%; /* fill most of cell but leave some gap */
+  aspect-ratio: 1 / 1; /* keep perfect square -> circle */
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #000 0%, #111 80%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+  animation: spin 8s linear infinite;
+}
+
+.vinyl:hover {
+  transform: scale(1.05);
+}
+
+.vinyl-center {
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+}
+
+.vinyl-center img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Bottom player bar */
+.player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: #1e1e1e;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.player-artwork {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #333;
+}
+
+.player-artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player-controls {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #333;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress {
+  width: 0%;
+  height: 100%;
+  background: #e63946;
+  border-radius: 3px;
+}
+
+.play-pause-btn {
+  background: #e63946;
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 60px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .vinyl-grid {
+    gap: 12px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .vinyl-grid {
+    height: calc(100vh - 120px); /* slightly smaller for mobile */
+  }
+  .vinyl-center {
+    width: 30%;
+    height: 30%;
+  }
+  .player-bar {
+    height: 80px;
+    padding: 0 12px;
+  }
+  .player-artwork {
+    width: 60px;
+    height: 60px;
+  }
+}
