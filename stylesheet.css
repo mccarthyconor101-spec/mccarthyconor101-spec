@@ -113,17 +113,19 @@ body.yes {
   justify-content: center;
   gap: 24px;
   margin: 40px 0;
-  perspective: 1000px;
+  perspective: 1000px; /* required for 3D flip */
 }
 
 .flip-card {
-  width: 260px; /* Polaroid width */
-  height: 340px;
+  width: 260px;
+  height: 340px; /* ensures container has height */
   position: relative;
+  cursor: pointer;
 }
 
 .flip-card-inner {
   width: 100%;
+  height: 100%;
   transition: transform 0.8s;
   transform-style: preserve-3d;
   position: relative;
@@ -135,27 +137,27 @@ body.yes {
 
 /* Polaroid frame */
 .polaroid {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: absolute; /* stack front/back */
   width: 100%;
+  height: 120%;
   background: white;
-  padding: 12px; /* uniform padding, no fixed bottom */
+  padding: 12px;
   border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
-  align-items: center; /* center the image vertically */
-  backface-visibility: hidden;
+  align-items: center;
+  backface-visibility: hidden; /* hide opposite side */
 }
 
 .polaroid img {
-  width: 100%; /* scale to container width */
-  height: auto; /* maintain full aspect ratio */
+  width: 100%;
+  height: auto;
   display: block;
+  padding-bottom: 60px;
 }
 
-/* Front and back stacking */
+/* Front and back layering */
 .flip-card-front {
   z-index: 2;
 }
