@@ -18,10 +18,12 @@ p {
   font-family: "Playfair Display", serif;
 }
 .button-container {
+  position: relative; /* needed for absolute positioning */
   display: flex;
   justify-content: center;
   gap: 12px;
   margin-top: 20px;
+  height: 60px; /* set a height so No has space to move */
 }
 
 .valentine-btn {
