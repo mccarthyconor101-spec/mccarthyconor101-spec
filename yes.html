@@ -207,5 +207,40 @@
       // Update every second
       setInterval(updateCountdown, 1000);
     </script>
+    <!-- Envelope Button -->
+<button id="envelope-btn" class="envelope-btn">💌 Open Letter</button>
+
+<!-- Letter Overlay -->
+<div id="letter-overlay">
+  <div id="letter">
+    <div id="letter-content">
+      Dear Sarah,<br><br>
+      You are the best part of my life, 
+      you have made me so hapy over these
+      last few months.
+      Youare the kindest, most caring
+      ,most loving, most thoughtful
+      person I know.
+      I love you more than I can say,
+      I'm so lucky to call myself your 
+      Boyfriend<br><br>
+      Love,<br>
+      Conor
+    </div>
+  </div>
+</div>
+<script>
+const envelopeBtn = document.getElementById('envelope-btn');
+const letterOverlay = document.getElementById('letter-overlay');
+
+envelopeBtn.addEventListener('click', () => {
+  letterOverlay.classList.add('show');
+});
+letterOverlay.addEventListener('click', (e) => {
+  if (e.target === letterOverlay) {
+    letterOverlay.classList.remove('show');
+  }
+});
+</script>
   </body>
 </html>
